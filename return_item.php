@@ -32,7 +32,7 @@ try {
     $stmt->execute([$item_id]);
     $item = $stmt->fetch();
 } catch(PDOException $e) {
-    die("Chyba při načítání položky: " . $e->getMessage());
+    die("Error when loading an item: " . $e->getMessage());
 }
 
 // If item doesn't exist or is not borrowed, redirect
@@ -60,7 +60,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
         header("Location: warehouse.php?id=" . $item['warehouse_id'] . "&success=returned");
         exit;
     } catch(PDOException $e) {
-        $error = "Chyba při vracení položky: " . $e->getMessage();
+        $error = "Error when returning an item: " . $e->getMessage();
     }
 }
 ?>
@@ -69,7 +69,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vrátit položku - Správa skautských skladů</title>
+    <title>Return Item - Scout Warehouse Management</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -78,8 +78,8 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
         
         <div class="content">
             <div class="page-header">
-                <h1>Vrátit položku</h1>
-                <a href="warehouse.php?id=<?php echo $item['warehouse_id']; ?>" class="btn btn-secondary">Zpět na sklad</a>
+                <h1>Return item</h1>
+                <a href="warehouse.php?id=<?php echo $item['warehouse_id']; ?>" class="btn btn-secondary">Back to warehouse</a>
             </div>
             
             <?php if(isset($error)): ?>
@@ -87,14 +87,14 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
             <?php endif; ?>
             
             <div class="return-confirmation">
-                <h2>Potvrzení vrácení</h2>
-                <p>Chystáte se vrátit následující položku:</p>
+                <h2>Confirmation of return</h2>
+                <p>You are about to return the following item:</p>
                 
                 <div class="item-details">
-                    <p><strong>Název:</strong> <?php echo htmlspecialchars($item['name']); ?></p>
-                    <p><strong>Sklad:</strong> <?php echo htmlspecialchars($item['warehouse_name']); ?></p>
-                    <p><strong>Vypůjčeno:</strong> <?php echo htmlspecialchars($item['borrower_name']); ?></p>
-                    <p><strong>Datum vypůjčení:</strong> <?php echo date('d.m.Y H:i', strtotime($item['borrowed_at'])); ?></p>
+                    <p><strong>Name:</strong> <?php echo htmlspecialchars($item['name']); ?></p>
+                    <p><strong>Warehouse:</strong> <?php echo htmlspecialchars($item['warehouse_name']); ?></p>
+                    <p><strong>Borrowed from:</strong> <?php echo htmlspecialchars($item['borrower_name']); ?></p>
+                    <p><strong>Date of borrowing:</strong> <?php echo date('d.m.Y H:i', strtotime($item['borrowed_at'])); ?></p>
                 </div>
                 
                 <form method="POST" action="return_item.php?id=<?php echo $item_id; ?>">

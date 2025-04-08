@@ -51,7 +51,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
         header("Location: warehouse.php?id=" . $item['warehouse_id'] . "&success=borrowed");
         exit;
     } catch(PDOException $e) {
-        $error = "Chyba při vypůjčení položky: " . $e->getMessage();
+        $error = "Error while borrowing item: " . $e->getMessage();
     }
 }
 ?>
@@ -60,7 +60,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vypůjčit položku - Správa skautských skladů</title>
+    <title>Borrow an item - Scout Warehouse Management</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -69,8 +69,8 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
         
         <div class="content">
             <div class="page-header">
-                <h1>Vypůjčit položku</h1>
-                <a href="warehouse.php?id=<?php echo $item['warehouse_id']; ?>" class="btn btn-secondary">Zpět na sklad</a>
+                <h1>Borrow item</h1>
+                <a href="warehouse.php?id=<?php echo $item['warehouse_id']; ?>" class="btn btn-secondary">Back to warehouse</a>
             </div>
             
             <?php if(isset($error)): ?>
@@ -78,20 +78,20 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
             <?php endif; ?>
             
             <div class="borrow-confirmation">
-                <h2>Potvrzení vypůjčení</h2>
-                <p>Chystáte se vypůjčit následující položku:</p>
+                <h2>Borrow confirmation</h2>
+                <p>You are about to borrow the following item:</p>
                 
                 <div class="item-details">
-                    <p><strong>Název:</strong> <?php echo htmlspecialchars($item['name']); ?></p>
-                    <p><strong>Popis:</strong> <?php echo htmlspecialchars($item['description']); ?></p>
-                    <p><strong>Sklad:</strong> <?php echo htmlspecialchars($item['warehouse_name']); ?></p>
-                    <p><strong>Množství:</strong> <?php echo $item['quantity']; ?></p>
+                    <p><strong>Name:</strong> <?php echo htmlspecialchars($item['name']); ?></p>
+                    <p><strong>Description:</strong> <?php echo htmlspecialchars($item['description']); ?></p>
+                    <p><strong>Warehouse:</strong> <?php echo htmlspecialchars($item['warehouse_name']); ?></p>
+                    <p><strong>Amount:</strong> <?php echo $item['quantity']; ?></p>
                 </div>
                 
                 <form method="POST" action="borrow_item.php?id=<?php echo $item_id; ?>">
                     <div class="form-group">
-                        <button type="submit" class="btn btn-primary">Potvrdit vypůjčení</button>
-                        <a href="warehouse.php?id=<?php echo $item['warehouse_id']; ?>" class="btn btn-secondary">Zrušit</a>
+                        <button type="submit" class="btn btn-primary">Confirm borrow</button>
+                        <a href="warehouse.php?id=<?php echo $item['warehouse_id']; ?>" class="btn btn-secondary">Cancel</a>
                     </div>
                 </form>
             </div>

@@ -18,7 +18,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
     $password = $_POST['password'];
     
     if(empty($email) || empty($password)) {
-        $error = "Prosím vyplňte všechna pole.";
+        $error = "Please fill in all fields.";
     } else {
         // Check if email exists
         $stmt = $pdo->prepare("SELECT * FROM users WHERE email = ?");
@@ -35,7 +35,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
             header("Location: index.php");
             exit;
         } else {
-            $error = "Nesprávný email nebo heslo.";
+            $error = "Incorrect email or password.";
         }
     }
 }
@@ -45,14 +45,14 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Přihlášení - Správa skautských skladů</title>
+    <title>Login - Scout Warehouse Management</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
     <div class="container">
         <div class="login-form">
-            <h1>Správa skautských skladů</h1>
-            <h2>Přihlášení</h2>
+            <h1>Scout Warehouse Manager</h1>
+            <h2>Login</h2>
             
             <?php if($error): ?>
                 <div class="alert alert-error"><?php echo $error; ?></div>
@@ -65,15 +65,15 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
                 </div>
                 
                 <div class="form-group">
-                    <label for="password">Heslo:</label>
+                    <label for="password">Password:</label>
                     <input type="password" id="password" name="password" required>
                 </div>
                 
                 <div class="form-group">
-                    <button type="submit" class="btn btn-primary">Přihlásit se</button>
+                    <button type="submit" class="btn btn-primary">Log in</button>
                 </div>
                 
-                <p class="login-note">Pro přístup kontaktujte administrátora systému.</p>
+                <p class="login-note">If you do not have a password, contact your system administrator.</p>
             </form>
         </div>
     </div>

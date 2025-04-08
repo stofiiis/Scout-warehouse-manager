@@ -21,7 +21,7 @@ $warehouses = $stmt->fetchAll();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Správa skautských skladů</title>
+    <title>Scout Warehouse Manager</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -30,14 +30,14 @@ $warehouses = $stmt->fetchAll();
         
         <div class="content">
             <div class="page-header">
-                <h1>Sklady</h1>
-                <a href="add_warehouse.php" class="btn btn-primary">Přidat sklad</a>
+                <h1>Warehouses</h1>
+                <a href="add_warehouse.php" class="btn btn-primary">Add warehouse</a>
             </div>
             
             <?php if(empty($warehouses)): ?>
                 <div class="empty-state">
-                    <p>Zatím nejsou žádné sklady.</p>
-                    <a href="add_warehouse.php" class="btn btn-primary">Přidat první sklad</a>
+                    <p>There are no warehouses yet.</p>
+                    <a href="add_warehouse.php" class="btn btn-primary">Add the first warehouse.</a>
                 </div>
             <?php else: ?>
                 <div class="warehouse-grid">
@@ -50,7 +50,7 @@ $warehouses = $stmt->fetchAll();
                             <?php endif; ?>
                             <div class="warehouse-footer">
                                 <span>Počet položek: <?php echo $warehouse['item_count']; ?></span>
-                                <a href="warehouse.php?id=<?php echo $warehouse['id']; ?>" class="btn btn-secondary">Zobrazit</a>
+                                <a href="warehouse.php?id=<?php echo $warehouse['id']; ?>" class="btn btn-secondary">View</a>
                             </div>
                         </div>
                     <?php endforeach; ?>

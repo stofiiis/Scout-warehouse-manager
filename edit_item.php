@@ -48,9 +48,9 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
     
     // Validate input
     if(empty($name)) {
-        $error = "Název položky je povinný.";
+        $error = "Item name is required.";
     } elseif($quantity <= 0) {
-        $error = "Množství musí být větší než 0.";
+        $error = "Quantity must be greater than 0.";
     } else {
         // Check if item is borrowed
         if($item['is_borrowed']) {
@@ -78,7 +78,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
             header("Location: warehouse.php?id=" . $item['warehouse_id'] . "&success=updated");
             exit;
         } catch(PDOException $e) {
-            $error = "Chyba při aktualizaci položky: " . $e->getMessage();
+            $error = "There was error when updating item: " . $e->getMessage();
         }
     }
 }
@@ -92,7 +92,7 @@ $warehouses = $stmt->fetchAll();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Upravit položku - Správa skautských skladů</title>
+    <title>Edit item - Scout Warehouse Management</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -101,8 +101,8 @@ $warehouses = $stmt->fetchAll();
         
         <div class="content">
             <div class="page-header">
-                <h1>Upravit položku</h1>
-                <a href="warehouse.php?id=<?php echo $item['warehouse_id']; ?>" class="btn btn-secondary">Zpět na sklad</a>
+                <h1>Edit item</h1>
+                <a href="warehouse.php?id=<?php echo $item['warehouse_id']; ?>" class="btn btn-secondary">Back to warehouse</a>
             </div>
             
             <?php if($error): ?>
@@ -116,12 +116,12 @@ $warehouses = $stmt->fetchAll();
             <div class="form-container">
                 <form method="POST" action="edit_item.php?id=<?php echo $item_id; ?>">
                     <div class="form-group">
-                        <label for="name">Název:</label>
+                        <label for="name">Name:</label>
                         <input type="text" id="name" name="name" value="<?php echo htmlspecialchars($item['name']); ?>" required>
                     </div>
                     
                     <div class="form-group">
-                        <label for="description">Popis:</label>
+                        <label for="description">Description:</label>
                         <textarea id="description" name="description" rows="4"><?php echo htmlspecialchars($item['description']); ?></textarea>
                     </div>
                     
@@ -129,12 +129,12 @@ $warehouses = $stmt->fetchAll();
                         <label for="quantity">Množství:</label>
                         <input type="number" id="quantity" name="quantity" value="<?php echo $item['quantity']; ?>" min="1" <?php echo $item['is_borrowed'] ? 'disabled' : ''; ?>>
                         <?php if($item['is_borrowed']): ?>
-                            <small>Množství nelze změnit, protože položka je vypůjčena.</small>
+                            <small>The quantity cannot be changed because the item is borrowed.</small>
                         <?php endif; ?>
                     </div>
                     
                     <div class="form-group">
-                        <label for="warehouse">Sklad:</label>
+                        <label for="warehouse">Warehouse:</label>
                         <select id="warehouse" disabled>
                             <?php foreach($warehouses as $warehouse): ?>
                                 <option value="<?php echo $warehouse['id']; ?>" <?php echo $warehouse['id'] == $item['warehouse_id'] ? 'selected' : ''; ?>>
@@ -142,14 +142,14 @@ $warehouses = $stmt->fetchAll();
                                 </option>
                             <?php endforeach; ?>
                         </select>
-                        <small>Pro přesun položky do jiného skladu kontaktujte administrátora.</small>
+                        <small>To move an item to another warehouse, contact the administrator.</small>
                     </div>
                     
                     <div class="form-group">
-                        <label>Stav:</label>
+                        <label>Status:</label>
                         <div>
                             <?php if($item['is_borrowed']): ?>
-                                <span class="status-borrowed">Vypůjčeno</span>
+                                <span class="status-borrowed">Borrowed</span>
                                 <p class="borrow-info">
                                     <?php 
                                     // Get borrower name
@@ -157,8 +157,8 @@ $warehouses = $stmt->fetchAll();
                                     $stmt->execute([$item['borrowed_by']]);
                                     $borrower = $stmt->fetch();
                                     
-                                    echo "Vypůjčeno uživatelem: " . htmlspecialchars($borrower['name']);
-                                    echo "<br>Datum vypůjčení: " . date('d.m.Y H:i', strtotime($item['borrowed_at']));
+                                    echo "Borrowed by user: " . htmlspecialchars($borrower['name']);
+                                    echo "<br>Date of borrowing: " . date('d.m.Y H:i', strtotime($item['borrowed_at']));
                                     ?>
                                 </p>
                             <?php else: ?>
@@ -168,16 +168,16 @@ $warehouses = $stmt->fetchAll();
                     </div>
                     
                     <div class="form-group">
-                        <button type="submit" class="btn btn-primary">Uložit změny</button>
+                        <button type="submit" class="btn btn-primary">Save changes</button>
                         <a href="warehouse.php?id=<?php echo $item['warehouse_id']; ?>" class="btn btn-secondary">Zrušit</a>
                     </div>
                 </form>
                 
                 <?php if(!$item['is_borrowed'] && ($is_admin || $_SESSION['user_id'] == $item['created_by'])): ?>
                 <div class="danger-zone">
-                    <h3>Nebezpečná zóna</h3>
-                    <p>Tato akce je nevratná. Buďte opatrní.</p>
-                    <a href="delete_item.php?id=<?php echo $item_id; ?>" class="btn btn-danger" onclick="return confirm('Opravdu chcete smazat tuto položku?')">Smazat položku</a>
+                    <h3>Danger zone</h3>
+                    <p>This action is irreversible. Be careful.</p>
+                    <a href="delete_item.php?id=<?php echo $item_id; ?>" class="btn btn-danger" onclick="return confirm('Do you really want to delete this item?')">Smazat položku</a>
                 </div>
                 <?php endif; ?>
             </div>
