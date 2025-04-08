@@ -1,9 +1,9 @@
 <?php
 // Database connection parameters
-$host = 'localhost';
-$dbname = '18073_sklad';
-$username = '18073_57458';
-$password = 'nam4n1ha1o';
+$host = 'localhost'; // Zde zadejte adresu serveru databáze (např. localhost)
+$dbname = 'nazev_databaze'; // Zde zadejte název vaší databáze
+$username = 'uzivatel'; // Zde zadejte uživatelské jméno pro připojení k databázi
+$password = 'heslo_k_databazi';
 
 try {
     // Create PDO instance
