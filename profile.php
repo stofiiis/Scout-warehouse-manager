@@ -45,14 +45,14 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
         try {
             $stmt->execute([$name, $user_id]);
             $_SESSION['user_name'] = $name;
-            $success = "Name has been successfully updated.";
+            $success = "Jméno bylo úspěšně aktualizováno.";
             
             // Refresh user data
             $stmt = $pdo->prepare("SELECT * FROM users WHERE id = ?");
             $stmt->execute([$user_id]);
             $user = $stmt->fetch();
         } catch(PDOException $e) {
-            $error = "Error when updating the name: " . $e->getMessage();
+            $error = "Chyba při aktualizaci jména: " . $e->getMessage();
         }
     }
     
@@ -71,18 +71,18 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
                     
                     try {
                         $stmt->execute([$hashed_password, $user_id]);
-                        $success = "The password has been successfully changed.";
+                        $success = "Heslo bylo úspěšně změněno.";
                     } catch(PDOException $e) {
-                        $error = "Error changing password: " . $e->getMessage();
+                        $error = "Chyba při změně hesla: " . $e->getMessage();
                     }
                 } else {
-                    $error = "The new password must be at least 6 characters long.";
+                    $error = "Nové heslo musí mít alespoň 6 znaků.";
                 }
             } else {
-                $error = "The new passwords do not match.";   
+                $error = "Nová hesla se neshodují.";
             }
         } else {
-            $error = "The current password is incorrect.";
+            $error = "Současné heslo není správné.";
         }
     }
 }
@@ -92,7 +92,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Profile - Scout Warehouse Manager</title>
+    <title>Můj profil - Správa skautských skladů</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -101,7 +101,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
         
         <div class="content">
             <div class="page-header">
-                <h1>My Profile</h1>
+                <h1>Můj profil</h1>
             </div>
             
             <?php if($error): ?>
@@ -114,55 +114,55 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
             
             <div class="profile-container">
                 <div class="profile-section">
-                    <h2>Personal data</h2>
+                    <h2>Osobní údaje</h2>
                     <form method="POST" action="profile.php" class="profile-form">
                         <div class="form-group">
                             <label for="email">Email:</label>
                             <input type="email" id="email" value="<?php echo htmlspecialchars($user['email']); ?>" disabled>
-                            <small>Email cannot be changed.</small>
+                            <small>Email nelze změnit, pro změnu kontaktujte administrátora.</small>
                         </div>
                         
                         <div class="form-group">
-                            <label for="name">Name:</label>
+                            <label for="name">Jméno:</label>
                             <input type="text" id="name" name="name" value="<?php echo htmlspecialchars($user['name']); ?>">
                         </div>
                         
-                        <h3>Change password</h3>
+                        <h3>Změna hesla</h3>
                         <div class="form-group">
-                            <label for="current_password">Current password:</label>
+                            <label for="current_password">Současné heslo:</label>
                             <input type="password" id="current_password" name="current_password">
                         </div>
                         
                         <div class="form-group">
-                            <label for="new_password">New password:</label>
+                            <label for="new_password">Nové heslo:</label>
                             <input type="password" id="new_password" name="new_password">
                         </div>
                         
                         <div class="form-group">
-                            <label for="confirm_password">Confirm a new password:</label>
+                            <label for="confirm_password">Potvrzení nového hesla:</label>
                             <input type="password" id="confirm_password" name="confirm_password">
                         </div>
                         
                         <div class="form-group">
-                            <button type="submit" class="btn btn-primary">Save Changes</button>
+                            <button type="submit" class="btn btn-primary">Uložit změny</button>
                         </div>
                     </form>
                 </div>
                 
                 <div class="profile-section">
-                    <h2>My borrowed items</h2>
+                    <h2>Moje vypůjčené položky</h2>
                     
                     <?php if(empty($borrowed_items)): ?>
-                        <p>You have no borrowed items.</p>
+                        <p>Nemáte žádné vypůjčené položky.</p>
                     <?php else: ?>
                         <div class="items-table-container">
                             <table class="items-table">
                                 <thead>
                                     <tr>
-                                        <th>Name</th>
-                                        <th>Warehouse</th>
-                                        <th>Borrowed on</th>
-                                        <th>Action</th>
+                                        <th>Název</th>
+                                        <th>Sklad</th>
+                                        <th>Vypůjčeno dne</th>
+                                        <th>Akce</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -172,8 +172,8 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
                                             <td><?php echo htmlspecialchars($item['warehouse_name']); ?></td>
                                             <td><?php echo date('d.m.Y H:i', strtotime($item['borrowed_at'])); ?></td>
                                             <td>
-                                                <a href="return_item.php?id=<?php echo $item['id']; ?>" class="btn btn-small btn-success">Return</a>
-                                                <a href="warehouse.php?id=<?php echo $item['warehouse_id']; ?>" class="btn btn-small btn-secondary">Back to warehouse</a>
+                                                <a href="return_item.php?id=<?php echo $item['id']; ?>" class="btn btn-small btn-success">Vrátit</a>
+                                                <a href="warehouse.php?id=<?php echo $item['warehouse_id']; ?>" class="btn btn-small btn-secondary">Zobrazit sklad</a>
                                             </td>
                                         </tr>
                                     <?php endforeach; ?>

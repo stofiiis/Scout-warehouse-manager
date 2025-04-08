@@ -21,16 +21,16 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
     $is_admin = isset($_POST['is_admin']) ? 1 : 0;
     
     if(empty($name) || empty($email) || empty($password)) {
-        $error = "Please fill in all required fields.";
+        $error = "Prosím vyplňte všechna povinná pole.";
     } elseif(strlen($password) < 6) {
-        $error = "The password must be at least 6 characters long.";
+        $error = "Heslo musí mít alespoň 6 znaků.";
     } else {
         // Check if email already exists
         $stmt = $pdo->prepare("SELECT id FROM users WHERE email = ?");
         $stmt->execute([$email]);
         
         if($stmt->rowCount() > 0) {
-            $error = "Email is already registered.";
+            $error = "Email je již zaregistrován.";
         } else {
             // Hash password
             $hashed_password = password_hash($password, PASSWORD_DEFAULT);
@@ -45,7 +45,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
                 header("Location: index.php?success=added");
                 exit;
             } catch(PDOException $e) {
-                $error = "User creation error: " . $e->getMessage();
+                $error = "Chyba při vytváření uživatele: " . $e->getMessage();
             }
         }
     }

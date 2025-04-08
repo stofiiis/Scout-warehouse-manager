@@ -20,19 +20,19 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
     $description = trim($_POST['description']);
     
     if(empty($name) || empty($location)) {
-        $error = "Name and location are required fields.";
+        $error = "Název a umístění jsou povinné položky.";
     } else {
         // Insert new warehouse
         $stmt = $pdo->prepare("INSERT INTO warehouses (name, location, description) VALUES (?, ?, ?)");
         
         try {
             $stmt->execute([$name, $location, $description]);
-            $success = "The warehouse was successfully created.";
+            $success = "Sklad byl úspěšně vytvořen.";
             
             // Redirect to warehouse page after short delay
             header("refresh:2;url=index.php");
         } catch(PDOException $e) {
-            $error = "Error creating warehouse: " . $e->getMessage();
+            $error = "Chyba při vytváření skladu: " . $e->getMessage();
         }
     }
 }
@@ -66,23 +66,23 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
             <div class="form-container">
                 <form method="POST" action="add_warehouse.php">
                     <div class="form-group">
-                        <label for="name">Name:</label>
+                        <label for="name">Název skladu:</label>
                         <input type="text" id="name" name="name" required>
                     </div>
                     
                     <div class="form-group">
-                        <label for="location">Location:</label>
+                        <label for="location">Umístění:</label>
                         <input type="text" id="location" name="location" required>
                     </div>
                     
                     <div class="form-group">
-                        <label for="description">Description:</label>
+                        <label for="description">Popis:</label>
                         <textarea id="description" name="description" rows="4"></textarea>
                     </div>
                     
                     <div class="form-group">
-                        <button type="submit" class="btn btn-primary">Save warehouse</button>
-                        <a href="index.php" class="btn btn-secondary">Cancel</a>
+                        <button type="submit" class="btn btn-primary">Uložit sklad</button>
+                        <a href="index.php" class="btn btn-secondary">Zrušit</a>
                     </div>
                 </form>
             </div>

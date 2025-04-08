@@ -39,19 +39,19 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
     $quantity = (int)$_POST['quantity'];
     
     if(empty($name) || $quantity < 1) {
-        $error = "The name is required and the quantity must be at least 1.";
+        $error = "Název je povinný a množství musí být alespoň 1.";
     } else {
         // Insert new item
         $stmt = $pdo->prepare("INSERT INTO items (warehouse_id, name, description, quantity) VALUES (?, ?, ?, ?)");
         
         try {
             $stmt->execute([$warehouse_id, $name, $description, $quantity]);
-            $success = "The item was added successfully.";
+            $success = "Položka byla úspěšně přidána.";
             
             // Redirect to warehouse page after short delay
             header("refresh:2;url=warehouse.php?id=" . $warehouse_id);
         } catch(PDOException $e) {
-            $error = "Error adding item: " . $e->getMessage();
+            $error = "Chyba při přidávání položky: " . $e->getMessage();
         }
     }
 }
@@ -85,22 +85,22 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
             <div class="form-container">
                 <form method="POST" action="add_item.php?warehouse_id=<?php echo $warehouse_id; ?>">
                     <div class="form-group">
-                        <label for="name">Name:</label>
+                        <label for="name">Název položky:</label>
                         <input type="text" id="name" name="name" required>
                     </div>
                     
                     <div class="form-group">
-                        <label for="description">Description:</label>
+                        <label for="description">Popis:</label>
                         <textarea id="description" name="description" rows="4"></textarea>
                     </div>
                     
                     <div class="form-group">
-                        <label for="quantity">Quantity:</label>
+                        <label for="quantity">Množství:</label>
                         <input type="number" id="quantity" name="quantity" min="1" value="1" required>
                     </div>
                     
                     <div class="form-group">
-                        <button type="submit" class="btn btn-primary">Save item</button>
+                        <button type="submit" class="btn btn-primary">Uložit položku</button>
                         <a href="warehouse.php?id=<?php echo $warehouse_id; ?>" class="btn btn-secondary">Zrušit</a>
                     </div>
                 </form>

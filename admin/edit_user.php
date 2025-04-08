@@ -40,14 +40,14 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
     $is_admin = isset($_POST['is_admin']) ? 1 : 0;
     
     if(empty($name) || empty($email)) {
-        $error = "Name and email are required fields.";
+        $error = "Jméno a email jsou povinné položky.";
     } else {
         // Check if email already exists for other users
         $stmt = $pdo->prepare("SELECT id FROM users WHERE email = ? AND id != ?");
         $stmt->execute([$email, $user_id]);
         
         if($stmt->rowCount() > 0) {
-            $error = "The email is already in use by another user.";
+            $error = "Email je již používán jiným uživatelem.";
         } else {
             // Update user
             if(empty($password)) {
@@ -57,7 +57,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
             } else {
                 // Update with new password
                 if(strlen($password) < 6) {
-                    $error = "The password must be at least 6 characters long.";
+                    $error = "Heslo musí mít alespoň 6 znaků.";
                 } else {
                     $hashed_password = password_hash($password, PASSWORD_DEFAULT);
                     $stmt = $pdo->prepare("UPDATE users SET name = ?, email = ?, password = ?, is_admin = ? WHERE id = ?");
@@ -80,7 +80,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
                     header("Location: index.php?success=updated");
                     exit;
                 } catch(PDOException $e) {
-                    $error = "User update error: " . $e->getMessage();
+                    $error = "Chyba při aktualizaci uživatele: " . $e->getMessage();
                 }
             }
         }
@@ -92,7 +92,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edit user - Scout Warehouse Manager</title>
+    <title>Upravit uživatele - Správa skautských skladů</title>
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="admin.css">
 </head>
@@ -102,8 +102,8 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
         
         <div class="content">
             <div class="page-header">
-                <h1>Edit user</h1>
-                <a href="index.php" class="btn btn-secondary">Back to list</a>
+                <h1>Upravit uživatele</h1>
+                <a href="index.php" class="btn btn-secondary">Zpět na seznam</a>
             </div>
             
             <?php if($error): ?>
@@ -113,7 +113,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
             <div class="form-container">
                 <form method="POST" action="edit_user.php?id=<?php echo $user_id; ?>">
                     <div class="form-group">
-                        <label for="name">Name:</label>
+                        <label for="name">Jméno:</label>
                         <input type="text" id="name" name="name" value="<?php echo htmlspecialchars($user['name']); ?>" required>
                     </div>
                     
@@ -123,19 +123,19 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
                     </div>
                     
                     <div class="form-group">
-                        <label for="password">Password:</label>
+                        <label for="password">Heslo:</label>
                         <input type="password" id="password" name="password">
-                        <small>Leave blank if you do not want to change the password.</small>
+                        <small>Ponechte prázdné, pokud nechcete měnit heslo.</small>
                     </div>
                     
                     <div class="form-group checkbox-group">
                         <input type="checkbox" id="is_admin" name="is_admin" <?php echo $user['is_admin'] ? 'checked' : ''; ?>>
-                        <label for="is_admin">Administrator</label>
+                        <label for="is_admin">Administrátor</label>
                     </div>
                     
                     <div class="form-group">
-                        <button type="submit" class="btn btn-primary">Save changes</button>
-                        <a href="index.php" class="btn btn-secondary">Cancel</a>
+                        <button type="submit" class="btn btn-primary">Uložit změny</button>
+                        <a href="index.php" class="btn btn-secondary">Zrušit</a>
                     </div>
                 </form>
             </div>

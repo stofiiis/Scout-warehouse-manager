@@ -22,7 +22,7 @@ $success = isset($_GET['success']) ? $_GET['success'] : '';
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User Management - Scout Warehouse Manager</title>
+    <title>Správa uživatelů - Správa skautských skladů</title>
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="admin.css">
 </head>
@@ -32,8 +32,8 @@ $success = isset($_GET['success']) ? $_GET['success'] : '';
         
         <div class="content">
             <div class="page-header">
-                <h1>User management</h1>
-                <a href="add_user.php" class="btn btn-primary">Add user</a>
+                <h1>Správa uživatelů</h1>
+                <a href="add_user.php" class="btn btn-primary">Přidat uživatele</a>
             </div>
             
             <?php if($success): ?>
@@ -51,11 +51,11 @@ $success = isset($_GET['success']) ? $_GET['success'] : '';
                     <thead>
                         <tr>
                             <th>ID</th>
-                            <th>Name</th>
+                            <th>Jméno</th>
                             <th>Email</th>
                             <th>Admin</th>
-                            <th>Created</th>
-                            <th>Action</th>
+                            <th>Vytvořeno</th>
+                            <th>Akce</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -66,16 +66,16 @@ $success = isset($_GET['success']) ? $_GET['success'] : '';
                                 <td><?php echo htmlspecialchars($user['email']); ?></td>
                                 <td>
                                     <?php if($user['is_admin']): ?>
-                                        <span class="badge badge-success">Yes</span>
+                                        <span class="badge badge-success">Ano</span>
                                     <?php else: ?>
-                                        <span class="badge badge-secondary">No</span>
+                                        <span class="badge badge-secondary">Ne</span>
                                     <?php endif; ?>
                                 </td>
                                 <td><?php echo date('d.m.Y', strtotime($user['created_at'])); ?></td>
                                 <td>
-                                    <a href="edit_user.php?id=<?php echo $user['id']; ?>" class="btn btn-small btn-secondary">Edit</a>
+                                    <a href="edit_user.php?id=<?php echo $user['id']; ?>" class="btn btn-small btn-secondary">Upravit</a>
                                     <?php if($user['id'] != $_SESSION['user_id']): ?>
-                                        <a href="delete_user.php?id=<?php echo $user['id']; ?>" class="btn btn-small btn-danger" onclick="return confirm('Do you really want to delete this user?')">Delete</a>
+                                        <a href="delete_user.php?id=<?php echo $user['id']; ?>" class="btn btn-small btn-danger" onclick="return confirm('Opravdu chcete smazat tohoto uživatele?')">Smazat</a>
                                     <?php endif; ?>
                                 </td>
                             </tr>
