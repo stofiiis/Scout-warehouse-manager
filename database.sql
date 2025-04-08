@@ -1,12 +1,6 @@
 -- Scout Warehouse Management System Database Schema
 -- This script creates all necessary tables and adds an admin user
 
--- Drop existing tables if they exist (in reverse order of dependencies)
-DROP TABLE IF EXISTS items;
-DROP TABLE IF EXISTS warehouses;
-DROP TABLE IF EXISTS users;
-DROP TABLE IF EXISTS divisions;
-
 -- Create users table
 CREATE TABLE users (
     id INT AUTO_INCREMENT PRIMARY KEY,
