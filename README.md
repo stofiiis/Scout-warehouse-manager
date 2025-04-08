@@ -18,7 +18,7 @@ A comprehensive web application for managing scout warehouses, inventory, and eq
 
 ## Installation
 
-1. **Clone the repository**
+1. **[Download the code](https://github.com/stofiiis/Scout-warehouse-manager/releases)**
 2. **Setup your database - run contents of database.sql in phpMyAdmin or tool that you use**
 3. **Replace placeholders in /config/database.php**
 4. **Upload files to your server/hosting**
