@@ -51,7 +51,7 @@ CREATE TABLE items (
 -- Default credentials: admin@example.com / password123
 -- Password is hashed with password_hash() in PHP, this is a sample hash for 'password123'
 INSERT INTO users (name, email, password, is_admin) VALUES 
-('Admin', 'admin@example.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 1);
+('Admin', 'admin@example.com', '$2y$10$lb8biPVDacghLJWmtELbVuH/8dYUSrorUtAETWkJN0ej6limvDf6K', 1);
 
 -- Add sample warehouses
 INSERT INTO warehouses (name, location, description, created_by) VALUES
@@ -73,4 +73,4 @@ CREATE INDEX idx_items_borrowed ON items(is_borrowed, borrowed_by);
 
 -- Display success message
 SELECT 'Database setup completed successfully!' AS 'Message';
-SELECT 'Default admin login: admin@example.com / password123' AS 'Admin Credentials';
+SELECT 'Default admin login: admin@example.com / admin123' AS 'Admin Credentials';
